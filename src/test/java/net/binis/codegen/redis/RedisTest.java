@@ -36,11 +36,6 @@ class RedisTest extends BaseCodeGenTest {
     }
 
     @Test
-    void test() {
-        Redis.setup("redis://localhost");
-    }
-
-    @Test
     void testGenerate() {
         testSingleExecute("redis/RedisTest1.java", "redis/RedisTest1-0.java", "redis/RedisTest1-1.java", "redis/RedisTest1-2.java");
     }

@@ -1,5 +1,6 @@
 package net.binis.codegen.redis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulConnection;
@@ -8,11 +9,13 @@ import io.lettuce.core.codec.ByteArrayCodec;
 import io.lettuce.core.codec.RedisCodec;
 import io.lettuce.core.codec.StringCodec;
 import net.binis.codegen.annotation.CodeConfiguration;
+import net.binis.codegen.exception.MapperException;
 import net.binis.codegen.factory.CodeFactory;
 import net.binis.codegen.map.Mapper;
 import net.binis.codegen.redis.encoding.ValueEncoding;
 
 import static java.util.Objects.nonNull;
+import static net.binis.codegen.redis.encoding.ValueEncoding.STRING;
 
 @CodeConfiguration
 public class Redis {
@@ -32,7 +35,7 @@ public class Redis {
     }
 
     public static StatefulConnection<String, Object> setup(String connection) {
-        return setup(connection, ValueEncoding.STRING);
+        return setup(connection, STRING);
     }
 
     @SuppressWarnings("unchecked")
@@ -48,10 +51,16 @@ public class Redis {
         return Redis.connection;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T load(String key, Class<T> cls) {
         var impl = CodeFactory.lookup(cls);
         if (nonNull(impl)) {
-            return Mapper.convert(connection.sync().get(getPrefix(impl) + key), cls, key);
+            var result = connection.sync().get(getPrefix(impl) + key);
+            if (nonNull(result)) {
+                return (T) Mapper.convert(result, impl, key);
+            } else {
+                return null;
+            }
         }
 
         return null;
@@ -59,6 +68,20 @@ public class Redis {
 
     public static <T> T load(Class<T> cls) {
         return load("", cls);
+    }
+
+    public static Object serialize(Object obj) {
+        return switch (encoding) {
+            case STRING -> {
+                try {
+                    yield CodeFactory.create(ObjectMapper.class).writeValueAsString(obj);
+                } catch (Exception e) {
+                    throw new MapperException(e);
+                }
+            }
+            case BYTE_ARRAY -> Mapper.convert(obj, byte[].class);
+            default -> throw new UnsupportedOperationException();
+        };
     }
 
     private static String getPrefix(Class<?> impl) {

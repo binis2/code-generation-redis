@@ -1,6 +1,5 @@
 package net.binis.codegen.redis.modifier.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.binis.codegen.exception.MapperException;
@@ -28,14 +27,21 @@ public abstract class RedisModifierImpl<T, R> extends BaseModifierImpl<T, R> imp
 
     @Override
     public R save() {
+        return withKey(key ->
+                Redis.connection().sync().set(key, Redis.serialize(parent)));
+    }
+
+    @Override
+    public R delete() {
         return withKey(key -> {
             try {
-                Redis.connection().sync().set(key, CodeFactory.create(ObjectMapper.class).writeValueAsString(parent));
+                Redis.connection().sync().del(key);
             } catch (Exception e) {
                 throw new MapperException(e);
             }
         });
     }
+
 
     protected R withKey(Consumer<String> consumer) {
         try {
