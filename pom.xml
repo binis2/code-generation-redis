@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>dev.binis</groupId>
     <artifactId>code-generator-redis</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>code-generator-redis</name>
     <description>Binis Code Generation Resis module</description>
     <url>https://github.com/binis2/code-generation</url>
@@ -67,18 +67,18 @@
         <dependency>
             <groupId>dev.binis</groupId>
             <artifactId>code-generator-jackson</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>dev.binis</groupId>
             <artifactId>code-generation-test</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>
-            <version>6.2.2.RELEASE</version>
+            <version>6.2.3.RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -88,6 +88,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.10.1</version>
                     <configuration>
                         <compilerArgs>
                             <arg>-Xlint:unchecked</arg>
@@ -97,7 +98,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>3.0.0-M7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -107,7 +108,7 @@
                     <configuration>
                         <verbose>false</verbose>
                         <includes>
-                            <includes>**/*.java</includes>
+                            <includes>**/java/**/*.java</includes>
                         </includes>
                     </configuration>
 
