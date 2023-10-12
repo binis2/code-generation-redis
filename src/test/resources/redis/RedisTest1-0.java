@@ -75,6 +75,7 @@ public class RedisTestImpl implements RedisTest, Modifiable<RedisTest.Modify>, S
     // endregion
 
     // region inner classes
+    @Generated("ModifierEnricher")
     @SuppressWarnings("unchecked")
     protected class RedisTestModifyImpl extends RedisModifierImpl<RedisTest.Modify, RedisTest> implements RedisTest.Modify {
 

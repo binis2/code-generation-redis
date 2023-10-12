@@ -30,11 +30,6 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class RedisTest extends BaseCodeGenTest {
 
-    @BeforeEach
-    public void cleanUp() {
-        Helpers.cleanUp();
-    }
-
     @Test
     void testGenerate() {
         testSingleExecute("redis/RedisTest1.java", "redis/RedisTest1-0.java", "redis/RedisTest1-1.java", "redis/RedisTest1-2.java");
