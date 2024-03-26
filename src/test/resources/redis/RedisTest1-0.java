@@ -26,7 +26,7 @@ public class RedisTestImpl implements RedisTest, Modifiable<RedisTest.Modify>, S
     protected String title;
 
     // region constructor & initializer
-    {
+    static {
         CodeFactory.registerType(RedisTest.class, params -> new RedisTestImpl((String) params[0]), null);
     }
 
@@ -92,16 +92,16 @@ public class RedisTestImpl implements RedisTest, Modifiable<RedisTest.Modify>, S
             return RedisTestImpl.this;
         }
 
-        public RedisTest.Modify list(List<String> list) {
-            RedisTestImpl.this.list = list;
-            return this;
-        }
-
         public CodeList list() {
             if (RedisTestImpl.this.list == null) {
                 RedisTestImpl.this.list = new java.util.ArrayList<>();
             }
             return new CodeListImpl<>(this, RedisTestImpl.this.list);
+        }
+
+        public RedisTest.Modify list(List<String> list) {
+            RedisTestImpl.this.list = list;
+            return this;
         }
 
         public RedisTest.Modify title(String title) {
