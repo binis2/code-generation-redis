@@ -4,7 +4,7 @@ package net.binis.codegen.redis;
  * #%L
  * code-generator-redis
  * %%
- * Copyright (C) 2021 - 2024 Binis Belev
+ * Copyright (C) 2021 - 2026 Binis Belev
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ package net.binis.codegen.redis;
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulConnection;
@@ -92,13 +91,7 @@ public class Redis {
 
     public static Object serialize(Object obj) {
         return switch (encoding) {
-            case STRING -> {
-                try {
-                    yield CodeFactory.create(ObjectMapper.class).writeValueAsString(obj);
-                } catch (Exception e) {
-                    throw new MapperException(e);
-                }
-            }
+            case STRING -> Mapper.convert(obj, String.class);
             case BYTE_ARRAY -> Mapper.convert(obj, byte[].class);
             default -> throw new UnsupportedOperationException();
         };

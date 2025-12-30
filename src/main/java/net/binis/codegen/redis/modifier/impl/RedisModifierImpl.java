@@ -4,7 +4,7 @@ package net.binis.codegen.redis.modifier.impl;
  * #%L
  * code-generator-redis
  * %%
- * Copyright (C) 2021 - 2024 Binis Belev
+ * Copyright (C) 2021 - 2026 Binis Belev
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,8 @@ package net.binis.codegen.redis.modifier.impl;
  * #L%
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.binis.codegen.exception.MapperException;
-import net.binis.codegen.factory.CodeFactory;
 import net.binis.codegen.modifier.impl.BaseModifierImpl;
 import net.binis.codegen.redis.Redis;
 import net.binis.codegen.redis.modifier.RedisModifier;
